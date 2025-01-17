@@ -1,13 +1,18 @@
-const sectors = [
-    { color: "#FFBC03", text: "#333333", label: "Sweets" },
-    { color: "#FF5A10", text: "#333333", label: "Prize draw" },
-    { color: "#FFBC03", text: "#333333", label: "Sweets" },
-    { color: "#FF5A10", text: "#333333", label: "Prize draw" },
-    { color: "#FFBC03", text: "#333333", label: "Sweets + Prize draw" },
-    { color: "#FF5A10", text: "#333333", label: "You lose" },
-    { color: "#FFBC03", text: "#333333", label: "Prize draw" },
-    { color: "#FF5A10", text: "#333333", label: "Sweets" },
-];
+const spinAction = document.getElementById("spin-action");
+const spinElement = document.getElementById("spin").getContext("2d");
+const formElement = document.getElementById("form-member");
+let sectors = [];
+let tot = 0;
+let size = 600;
+const dia = size;
+const rad = dia / 2;
+const PI = Math.PI;
+const TAU = 2 * PI;
+let arc = TAU / sectors.length;
+const friction = 0.991; // 0.995=soft, 0.99=mid, 0.98=hard
+let angVel = 0; // Angular velocity
+let ang = 0; // Angle in radians
+let spinButtonClicked = false;
 
 const events = {
     listeners: {},
@@ -24,23 +29,13 @@ const events = {
     },
 };
 
-const random = (m, M) => Math.random() * (M - m) + m;
-const tot = sectors.length;
-const spinAction = document.getElementById("spin-action");
-const spinElement = document.getElementById("spin").getContext("2d");
-const dia = spinElement.canvas.width;
-const rad = dia / 2;
-const PI = Math.PI;
-const TAU = 2 * PI;
-const arc = TAU / sectors.length;
+function random(m, M) {
+    return Math.random() * (M - m) + m;
+}
 
-const friction = 0.991; // 0.995=soft, 0.99=mid, 0.98=hard
-let angVel = 0; // Angular velocity
-let ang = 0; // Angle in radians
-
-let spinButtonClicked = false;
-
-const getIndex = () => Math.floor(tot - (ang / TAU) * tot) % tot;
+function getIndex() {
+    return Math.floor(tot - (ang / TAU) * tot) % tot;
+}
 
 function drawSector(sector, i) {
     const ang = arc * i;
@@ -48,7 +43,7 @@ function drawSector(sector, i) {
 
     // COLOR
     spinElement.beginPath();
-    spinElement.fillStyle = sector.color;
+    spinElement.fillStyle = `hsl(${(360 / sectors.length) * i},100%,75%)`;
     spinElement.moveTo(rad, rad);
     spinElement.arc(rad, rad, rad, ang, ang + arc);
     spinElement.lineTo(rad, rad);
@@ -58,9 +53,9 @@ function drawSector(sector, i) {
     spinElement.translate(rad, rad);
     spinElement.rotate(ang + arc / 2);
     spinElement.textAlign = "right";
-    spinElement.fillStyle = sector.text;
-    spinElement.font = "bold 30px 'Fira Code', serif";
-    spinElement.fillText(sector.label, rad - 10, 10);
+    spinElement.fillStyle = "black";
+    spinElement.font = "30px 'Fira Code', serif";
+    spinElement.fillText(sector, rad - 10, 10);
 
     spinElement.restore();
 }
@@ -69,9 +64,9 @@ function rotate() {
     const sector = sectors[getIndex()];
     spinElement.canvas.style.transform = `rotate(${ang - PI / 2}rad)`;
 
-    spinAction.textContext = !angVel ? "SPIN" : sector.label;
-    spinAction.style.background = sector.color;
-    spinAction.style.color = sector.text;
+    spinAction.innerText = !angVel ? "Play" : sector;
+    spinAction.style.background = "#6c7ee1";
+    spinAction.style.color = "#fff";
 }
 
 function frame() {
@@ -84,11 +79,11 @@ function frame() {
 
     angVel *= friction;
 
-    if (angVel < 0.002) {
-        ang += angVel;
-        ang %= TAU;
-        rotate();
-    }
+    if (angVel < 0.002) angVel = 0;
+
+    ang += angVel;
+    ang %= TAU;
+    rotate();
 }
 
 function engine() {
@@ -106,8 +101,40 @@ function init() {
     });
 }
 
-init();
+function setup() {
+    const widthWindow = window.innerWidth;
+    if (widthWindow <= 500) {
+        size = 400;
+    } else if (widthWindow <= 768) {
+        size = 500;
+    } else {
+        size = 600;
+    }
+    spinElement.canvas.width = size;
+    spinElement.canvas.height = size;
+    init();
+}
 
+function handleSubmitForm(e) {
+    e.preventDefault();
+    sectors = [];
+    const textArea = document.querySelector("#form-member textarea");
+    const values = textArea.value;
+    if (!values) {
+        alert("Please enter your data");
+        return;
+    }
+    const result = values.split(",");
+    sectors.push(...result);
+    tot = sectors.length;
+    arc = TAU / sectors.length;
+    init();
+}
+
+formElement.addEventListener("submit", handleSubmitForm);
+window.addEventListener("resize", setup);
 events.addEventListener("spinEnd", (sector) => {
-    alert(`Opp, you won ${sector.label}`);
+    alert(`Opp, you won ${sector}`);
 });
+
+setup();
