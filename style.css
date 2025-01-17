@@ -1,186 +1,200 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap");
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html,
 body {
-	font-family: "Fira Code", serif;
-	font-optical-sizing: auto;
+    font-family: "Fira Code", serif;
+    font-optical-sizing: auto;
 }
 
 .container {
-	position: relative;
-	width: 100vw;
-	height: 100vh;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
 }
 
 .header {
-	width: 100%;
-	height: fit-content;
-	padding: 12px;
-	background-color: #1677ff;
-	display: flex;
-	flex-direction: row;
-	gap: 5px;
-	align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding: 12px;
+    background-color: #1677ff;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
 }
 
 .header h3 {
-	color: white;
+    color: white;
 }
 
 .header .mini-spin {
-	--_items: 6;
-	all: unset;
-	width: 30px;
-	aspect-ratio: 1 / 1;
-	background-color: transparent;
-	container-type: inline-size;
-	direction: ltr;
-	display: grid;
-	place-content: center start;
+    --_items: 6;
+    all: unset;
+    width: 30px;
+    aspect-ratio: 1 / 1;
+    background-color: transparent;
+    container-type: inline-size;
+    direction: ltr;
+    display: grid;
+    place-content: center start;
 }
 
 .header .mini-spin .mini-spin-element {
-	align-content: center;
-	background-color: deepskyblue;
-	display: grid;
-	grid-area: 1 / -1;
-	padding-left: 1ch;
-	transform-origin: center right;
-	width: 50cqi;
+    align-content: center;
+    background-color: deepskyblue;
+    display: grid;
+    grid-area: 1 / -1;
+    padding-left: 1ch;
+    transform-origin: center right;
+    width: 50cqi;
 }
 
 .header .mini-spin .mini-spin-element {
-	/* Javascript */
-	&:nth-of-type(1) {
-		--_idx: 1;
-	}
-	&:nth-of-type(2) {
-		--_idx: 2;
-	}
-	&:nth-of-type(3) {
-		--_idx: 3;
-	}
-	&:nth-of-type(4) {
-		--_idx: 4;
-	}
-	&:nth-of-type(5) {
-		--_idx: 5;
-	}
-	&:nth-of-type(6) {
-		--_idx: 6;
-	}
+    /* Javascript */
+    &:nth-of-type(1) {
+        --_idx: 1;
+    }
+    &:nth-of-type(2) {
+        --_idx: 2;
+    }
+    &:nth-of-type(3) {
+        --_idx: 3;
+    }
+    &:nth-of-type(4) {
+        --_idx: 4;
+    }
+    &:nth-of-type(5) {
+        --_idx: 5;
+    }
+    &:nth-of-type(6) {
+        --_idx: 6;
+    }
 }
 
 .header .mini-spin .mini-spin-element {
-	rotate: calc(360deg / var(--_items) * calc(var(--_idx) - 1));
-	background: hsl(calc(360deg / var(--_items) * calc(var(--_idx))), 100%, 75%);
-	height: calc((2 * pi * 50cqi) / var(--_items));
-	clip-path: polygon(0% -10%, 101% 50%, 0% 102%);
+    rotate: calc(360deg / var(--_items) * calc(var(--_idx) - 1));
+    background: hsl(
+        calc(360deg / var(--_items) * calc(var(--_idx))),
+        100%,
+        75%
+    );
+    height: calc((2 * pi * 50cqi) / var(--_items));
+    clip-path: polygon(0% -10%, 101% 50%, 0% 102%);
 }
 
 .header .mini-spin {
-	clip-path: inset(0 0 0 0 round 50%);
-	animation-name: spin;
-	animation-duration: 3000ms;
-	animation-iteration-count: infinite;
-	animation-timing-function: linear;
+    clip-path: inset(0 0 0 0 round 50%);
+    animation-name: spin;
+    animation-duration: 3000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
 @keyframes miniSpin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .content {
-	display: flex;
-	flex-direction: row;
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 54px);
 }
 
 .container .left-content button {
-	border: none;
-	outline: none;
-	padding: 12px;
-	border-radius: 4px;
-	color: white;
-	background-color: #1677ff;
-	cursor: pointer;
+    border: none;
+    outline: none;
+    padding: 12px;
+    border-radius: 4px;
+    color: white;
+    background-color: #1677ff;
+    cursor: pointer;
 }
 
 .content .left-content,
 .content .left-content form {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .content .left-content {
-	padding: 12px;
+    padding: 12px;
 }
 
 .content .left-content .input-element {
-	flex: 1;
-	min-width: 300px;
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .content .left-content textarea {
-	border: solid #1677ff 1px;
-	outline: none;
-	padding: 12px;
-	border-radius: 4px;
+    border: solid #1677ff 1px;
+    outline: none;
+    padding: 12px;
+    border-radius: 4px;
 }
 
 .content .left-content span {
-	color: #f5222d;
+    color: #f5222d;
+}
+
+.container .right-content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container .content .right-content .spin-container {
-	display: inline-block;
-	position: relative;
-	overflow: hidden;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: fit-content;
 }
 
 .container .content .right-content .spin-container #spin {
-	display: block;
+    display: block;
 }
 
 #spin-action {
-	font: 1.5em/0 "Lato", sans-serif;
-	user-select: none;
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 30%;
-	height: 30%;
-	margin: -15%;
-	background: #fff;
-	color: #fff;
-	box-shadow: 0 0 0 8px currentColor, 0 0px 15px 5px rgba(0, 0, 0, 0.6);
-	border-radius: 50%;
-	transition: 0.8s;
+    font: 1.5em/0 "Lato", sans-serif;
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 30%;
+    margin: -15%;
+    background: #fff;
+    color: #fff;
+    box-shadow: 0 0 0 8px currentColor, 0 0px 15px 5px rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    transition: 0.8s;
 }
 
 #spin-action::after {
-	content: "";
-	position: absolute;
-	top: -17px;
-	border: 10px solid transparent;
-	border-bottom-color: currentColor;
-	border-top: none;
+    content: "";
+    position: absolute;
+    top: -17px;
+    border: 10px solid transparent;
+    border-bottom-color: currentColor;
+    border-top: none;
 }
