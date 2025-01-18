@@ -70,6 +70,10 @@ function rotate() {
 }
 
 function frame() {
+    if (!spinButtonClicked) {
+        return;
+    }
+
     if (!angVel && spinButtonClicked) {
         const finalSector = sectors[getIndex()];
         events.fire("spinEnd", finalSector);
@@ -96,6 +100,10 @@ function init() {
     rotate();
     engine();
     spinAction.addEventListener("click", () => {
+        if (!sectors.length) {
+            alert("Please enter your members.");
+            return;
+        }
         if (!angVel) angVel = random(0.25, 0.45);
         spinButtonClicked = true;
     });
@@ -124,7 +132,9 @@ function handleSubmitForm(e) {
         alert("Please enter your data");
         return;
     }
-    const result = values.split(",");
+    const result = values
+        .split(",")
+        .map((val) => val.replace(/(\r\n|\n|\r)/gm, ""));
     sectors.push(...result);
     tot = sectors.length;
     arc = TAU / sectors.length;
