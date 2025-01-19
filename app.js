@@ -100,7 +100,7 @@ function init() {
     rotate();
     engine();
     spinAction.addEventListener("click", () => {
-        if (!sectors.length) {
+        if (!sectors.length && !spinButtonClicked) {
             alert("Please enter your members.");
             return;
         }
